@@ -1,6 +1,3 @@
-/*
-UART Interrupt Example
-*/
 #include <stdio.h>
 #include <string.h>
 #include "freertos/FreeRTOS.h"
