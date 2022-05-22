@@ -35,26 +35,19 @@ void app_main()
     // ESP_ERROR_CHECK(uart_enable_intr_mask(EX_UART_NUM, 0xffffffff));
 
 	ESP_ERROR_CHECK(uart_param_config(EX_UART_NUM, &uart_config));
-
-	//Set UART pins (using UART0 default pins ie no changes.)
 	ESP_ERROR_CHECK(uart_set_pin(EX_UART_NUM, -1, -1, -1, -1));
-
-	//Install UART driver, and get the queue.
 	ESP_ERROR_CHECK(uart_driver_install(EX_UART_NUM, BUF_SIZE, 0, 20, &uartQueue, 0));
 
-	// // release the pre registered UART handler/subroutine
 	ESP_ERROR_CHECK(uart_isr_free(EX_UART_NUM));
 
-	// // register new UART subroutine
     printf("\nbefore register\n");
 	ESP_ERROR_CHECK(uart_isr_register(EX_UART_NUM, interruptRoutine, NULL, ESP_INTR_FLAG_IRAM, NULL));
+	// SOMETHING GOES WRONG HERE ^^
     printf("\nafter register\n");
 
 	if (uart_enable_rx_intr(EX_UART_NUM) == 0) printf("\neabled rx\n");
-	// enable RX interrupt
 
-    // xTaskCreate(interruptRoutine, "UART_ISR_ROUTINE", 2048, NULL, 12, NULL);
-
+	// interrupt func should be 'triggered' if data received while in loop
     while (1) {
 
     }

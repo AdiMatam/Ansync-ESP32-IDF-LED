@@ -26,7 +26,7 @@ static nvs_handle_t nvsHandle;
 const char* onCommand = "ledOn";
 const char* offCommand = "ledOff";
 const char* blinkCommand = "ledBlink";
-//
+// GLOBALS
 
 static void setupUARTandLED() {
     gpio_reset_pin(ledPin);
@@ -131,7 +131,7 @@ void app_main(void) {
                 idx = 0;
             }
         }
-        performCurrentState();
+        performCurrentState(); // perform current LED state while awaiting input
     }
     printf("Goodbye!\n\n");
     nvs_close(nvsHandle);
