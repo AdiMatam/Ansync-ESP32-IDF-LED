@@ -15,7 +15,7 @@ Commands are to be typed into the **serial monitor** (rate set to 115200). Input
 - `exit`
 
 ## How It Works (detailed in code comments)
-*`main/main.c`*: Main executable file. Detailed below
+### *`main/main.c`*: Main executable file. Detailed below ###
 - One i32 allocated on **non-volatile storage** to store/retrieve current state of LED. 
 
 Possible LED states are defined by an enum  
@@ -44,7 +44,7 @@ Possible LED states are defined by an enum
     - **Shortcoming:** Undiagnosed error when registering the 'interrupt handle' function. Was unable to find information on setting "interruptBits" which determine "what triggers an interrupt"
 - *`viaArduino.c`*
     - Overview: Linked Arduino UNO transmit pin to ESP32 receive pin. Attempted to send commands from UNO...was initially unable to send directly from PC -> ESP32.
-    
+
     - **Shortcoming:** Though messages appear to be received by ESP32, the characters are "garbled" -> random unicode values. Might be due to disagreeing receive/transmit speeds?
 
 
