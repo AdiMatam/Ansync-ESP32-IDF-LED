@@ -1,76 +1,43 @@
-# Blink Example
+# ESP32-LED-Test
+ 
+Ansync Internship Aptitude **Project #1** - Persistent LED control via UART input commands with ESP32 development board  
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+## Notes
+- Used VS Code editor -> ESP-IDF extension for ease of building and flashing  
+- File structure based on `examples` directory on IDF repository.
 
-This example demonstrates how to blink a LED using GPIO or RMT for the addressable LED, i.e. [WS2812](http://www.world-semi.com/Certifications/WS2812B.html).
+## Implemented Commands
+Commands are to be typed into the **serial monitor** (rate set to 115200). Input is processed on-enter (when newline is sent)
 
-See the RMT examples in the [RMT Peripheral](../../peripherals/rmt) for more information about how to use it.
+- `ledOn` 
+- `ledOff` 
+- `ledBlink` - pre-defined delay time of 500 milliseconds. 
+- `exit`
 
-## How to Use Example
+## How It Works (detailed in code comments)
+**`main/main.c`**: Main executable file. Detailed below
+- One i32 allocated on **non-volatile storage** to store/retrieve current state of LED. 
 
-Before project configuration and build, be sure to set the correct chip target using `idf.py set-target <chip_name>`.
-
-### Hardware Required
-
-* A development board with ESP32/ESP32-S2/ESP32-S3/ESP32-C3 SoC (e.g., ESP32-DevKitC, ESP-WROVER-KIT, etc.)
-* A USB cable for Power supply and programming
-
-Some development boards use an addressable LED instead of a regular one. These development boards include:
-
-| Board                | LED type             | Pin                  |
-| -------------------- | -------------------- | -------------------- |
-| ESP32-C3-DevKitC-1   | Addressable          | GPIO8                |
-| ESP32-C3-DevKitM-1   | Addressable          | GPIO8                |
-| ESP32-S2-DevKitM-1   | Addressable          | GPIO18               |
-| ESP32-S2-Saola-1     | Addressable          | GPIO18               |
-| ESP32-S3-DevKitC-1   | Addressable          | GPIO48               |
-
-See [Development Boards](https://www.espressif.com/en/products/devkits) for more information about it.
-
-### Configure the Project
-
-Open the project configuration menu (`idf.py menuconfig`). 
-
-In the `Example Configuration` menu:
-
-* Select the LED type in the `Blink LED type` option.
-    * Use `GPIO` for regular LED blink.
-    * Use `RMT` for addressable LED blink.
-        * Use `RMT Channel` to select the RMT peripheral channel.
-* Set the GPIO number used for the signal in the `Blink GPIO number` option.
-* Set the blinking period in the `Blink period in ms` option.
-
-### Build and Flash
-
-Run `idf.py -p PORT flash monitor` to build, flash and monitor the project.
-
-(To exit the serial monitor, type ``Ctrl-]``.)
-
-See the [Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html) for full steps to configure and use ESP-IDF to build projects.
-
-## Example Output
-
-As you run the example, you will see the LED blinking, according to the previously defined period. For the addressable LED, you can also change the LED color by setting the `pStrip_a->set_pixel(pStrip_a, 0, 16, 16, 16);` (LED Strip, Pixel Number, Red, Green, Blue) with values from 0 to 255 in the `blink.c` file.
-
-```
-I (315) example: Example configured to blink addressable LED!
-I (325) example: Turning the LED OFF!
-I (1325) example: Turning the LED ON!
-I (2325) example: Turning the LED OFF!
-I (3325) example: Turning the LED ON!
-I (4325) example: Turning the LED OFF!
-I (5325) example: Turning the LED ON!
-I (6325) example: Turning the LED OFF!
-I (7325) example: Turning the LED ON!
-I (8325) example: Turning the LED OFF!
+Possible LED states are defined by an enum  
+```c
+- enum State {
+    ON = 1, OFF, BLINK
+};
 ```
 
-Note: The color order could be different according to the LED model.
+- Upon running, an attempt is made to retrieve the previous state of the LED. If no state is stored (very first time ever running the program), LED state is set to `off` (`setupNVS()`) 
 
-The pixel number indicates the pixel position in the LED strip. For a single LED, use 0.
+- In main loop, program performs current LED state WHILE awaiting Serial input (UART). After sanitizing the command (ignoring newline):  
+    -  Associated LED task is executed - `processCommand(string)`  
+    -  Associated LED state is stored in NVS - `updateNVS()`
 
-## Troubleshooting
+## Attempted Methods (
+### Review `oldCode` directory
 
-* If the LED isn't blinking, check the GPIO or the LED type selection in the `Example Configuration` menu.
 
-For any technical queries, please open an [issue](https://github.com/espressif/esp-idf/issues) on GitHub. We will get back to you soon.
+
+
+## Potential Improvements
+
+## Video Demonstration
+- IN PROGRESS...
