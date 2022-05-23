@@ -48,5 +48,10 @@ Possible LED states are defined by an enum
     - **Shortcoming:** Though messages appear to be received by ESP32, the characters are "garbled" -> random unicode values. Might be due to disagreeing receive/transmit speeds?
 
 
+## TEMPORARY SECTION - Video demo/showcase of other GitHub projects
+
+[AdiMatam Project Showcase](https://youtu.be/NjHhhnleYZY)
+
+
 ## Video Demonstration
 - Recent technical difficulties. Coming soon...
